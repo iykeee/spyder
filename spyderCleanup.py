@@ -30,8 +30,11 @@ class cleanup:
         anchorTags = soup('a')
         print(f"Retrieving all anchor tags from {htmlHandle}\n Kindly wait... \n Loading...{anchorTags}\n All Done!")
 
+        print("Generating link...")
+        num = 1
         for links in anchorTags:
-            print(links)
+            print(f"{num} Getting Link... {links}")
+            num = num + 1
         
         return True
 
