@@ -2,6 +2,7 @@ import sqlite3
 import html
 from bs4 import BeautifulSoup
 from requests import req
+import webbrowser
 
 #soup = BeautifulSoup("<p>Some<b>bad<i>HTML", features="html.parser")
 #print(soup.prettify())
@@ -22,8 +23,8 @@ class cleanup:
         cur.execute('''CREATE TABLE IF NOT EXISTS Spyder (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, links TEXT UNIQUE)''')
 
 
-        htmlHandle = open("htmlHandle.html")
-        htmlTree = htmlHandle.read()
+        #htmlHandle = open("htmlHandle.html")
+        htmlTree = req.htmlGenerator(self="htmlTree")
 
         soup = BeautifulSoup(htmlTree, features="html5lib")
         print(f"Retrieving all tags from html handle\n Kindly wait... \n Loading...\n All Done!")
@@ -44,6 +45,8 @@ class cleanup:
             cur.execute('INSERT OR IGNORE INTO Spyder (links) VALUES (? )', (links, ) )
             conn.commit()
             num = num + 1
+            #webbrowser.open_new_tab(links)
+
         
         cur.close()
         return True
