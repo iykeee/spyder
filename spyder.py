@@ -4,12 +4,12 @@ import sys
 
 
 #htmlHandle = req.htmlGenerator(req, "https://google.com")
-try:
-    spyder = cleanup.scrape(self=input("Enter Name: "), htmlHandle=req.htmlGenerator(req, url=input("Enter url: ")))
+#try:
+spyder = cleanup.scrape(self=input("Name of website: "))
 
-except ValueError:
-    print(f"Error! url not valid")
-    sys.exit(1)
+#except ValueError:
+    #print(f"Error! url not valid")
+    #sys.exit(1)
 
 
 #animePahe = cleanup("animePahe.html")
