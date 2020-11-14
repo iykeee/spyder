@@ -7,35 +7,37 @@ from bs4 import BeautifulSoup
 fileHandle = None
 
 class cleanup:
+
     def __init__ (self, fileHandle):
         self.htmlHandle = fileHandle
 
     def scrape (self, htmlHandle):
-        while True:
-            if (type(htmlHandle) is not str):
-                print(f"{htmlHandle} is not a valid file name \n Kindly enter correct file name in .html format")
-                continue
-            else:
-                print(f"{htmlHandle} is OK!")
-                break
-        
-        htmlTree = open(htmlHandle)
-        print(htmlTree)
+        conn = sqlite3.connect('cleanup.sqlite')
+        cur = conn.cursor()
 
-        soup = BeautifulSoup(htmlTree, features="html.parser")
-        anchorTags = None
-        print(f"Retrieving all tags from {htmlHandle}\n Kindly wait... \n Loading...\n All Done!")
+        cur.execute('''DROP TABLE IF EXISTS Spyder''')
+        cur.execute('''CREATE TABLE IF NOT EXISTS Spyder (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, links TEXT UNIQUE)''')
+
+        soup = BeautifulSoup(htmlHandle, features="html.parser").prettify()
+        print(f"Retrieving all tags from html handle\n Kindly wait... \n Loading...\n All Done!")
 
         #look for anchor tags in doc.
         anchorTags = soup('a')
-        print(f"Retrieving all anchor tags from {htmlHandle}\n Kindly wait... \n Loading...{anchorTags}\n All Done!")
+        print(f"Retrieving all anchor tags from html handle\n Kindly wait... \n Loading...\n All Done!")
 
         print("Generating link...")
         num = 1
         for links in anchorTags:
+            links = links.get("href", None)
+            if ( links is None ) : continue
+            
             print(f"{num} Getting Link... {links}")
+            links = str(links)
+            cur.execute('INSERT OR IGNORE INTO Spyder (links) VALUES (? )', (links, ) )
+            conn.commit()
             num = num + 1
         
+        cur.close()
         return True
 
 

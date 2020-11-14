@@ -1,5 +1,20 @@
+from requests import req
 from spyderCleanup import cleanup
+import sys
 
-animePahe = cleanup("animePahe.html")
-animePahe.scrape("animePahe.html")
+
+#htmlHandle = req.htmlGenerator(req, "https://google.com")
+try:
+    spyder = cleanup.scrape(self=input("Enter Name: "), htmlHandle=req.htmlGenerator(req, url=input("Enter url: ")))
+
+except ValueError:
+    print(f"Error! url not valid")
+    sys.exit(1)
+
+
+#animePahe = cleanup("animePahe.html")
+#animePahe.scrape("animePahe.html")
+
+
+
 
