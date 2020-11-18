@@ -4,27 +4,20 @@ from bs4 import BeautifulSoup
 from requests import req
 import webbrowser
 
-#soup = BeautifulSoup("<p>Some<b>bad<i>HTML", features="html.parser")
-#print(soup.prettify())
-
 fileHandle = None
 
-class cleanup:
+class cleanup(req):
 
     def __init__ (self, fileHandle):
         self.htmlHandle = fileHandle
 
-    def scrape (self):
+    def scrape (self, htmlTree):
 
         conn = sqlite3.connect('cleanup.sqlite')
         cur = conn.cursor()
 
         cur.execute('''DROP TABLE IF EXISTS Spyder''')
         cur.execute('''CREATE TABLE IF NOT EXISTS Spyder (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, links TEXT UNIQUE)''')
-
-
-        #htmlHandle = open("htmlHandle.html")
-        htmlTree = req.htmlGenerator(self="htmlTree")
 
         soup = BeautifulSoup(htmlTree, features="html5lib")
         print(f"Retrieving all tags from html handle\n Kindly wait... \n Loading...\n All Done!")
@@ -34,22 +27,31 @@ class cleanup:
         anchorTags = soup('a')
         print(f"Retrieving all anchor tags from html handle\n Kindly wait... \n Loading...\n All Done!")
 
-        print("Generating link...")
+        print("Generating links...")
         num = 1
+        link = list()
+
+
         for links in anchorTags:
             links = links.get("href", None)
             if ( links is None ) : continue
             
-            print(f"{num} Getting Link... {links}")
+            #print(f"{num} Getting Link... {links}")
             links = str(links)
             cur.execute('INSERT OR IGNORE INTO Spyder (links) VALUES (? )', (links, ) )
             conn.commit()
             num = num + 1
+            link.append(links)
             #webbrowser.open_new_tab(links)
 
         
         cur.close()
-        return True
+        return link
+
+
+
+
+        
 
 
 
