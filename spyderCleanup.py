@@ -20,12 +20,12 @@ class cleanup(req):
         cur.execute('''CREATE TABLE IF NOT EXISTS Spyder (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, links TEXT UNIQUE)''')
 
         soup = BeautifulSoup(htmlTree, features="html5lib")
-        print(f"Retrieving all tags from html handle\n Kindly wait... \n Loading...\n All Done!")
+        #print(f"Retrieving all tags from html handle\n Kindly wait... \n Loading...\n All Done!")
 
         #look for anchor tags in doc.
         
         anchorTags = soup('a')
-        print(f"Retrieving all anchor tags from html handle\n Kindly wait... \n Loading...\n All Done!")
+        #print(f"Retrieving all anchor tags from html handle\n Kindly wait... \n Loading...\n All Done!")
 
         print("Generating links...")
         num = 1
